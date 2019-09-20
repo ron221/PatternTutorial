@@ -329,6 +329,21 @@ def pattern_filter(row, pattern_col, patt_check_col):
     pattern_final = [patt for i, patt in enumerate(pattern) if patt_check[i]]
     return pattern_final
 
+def bag_of_pattern(df_pattern_weight, df_input, patt_col, num):
+    top_freq_pattern_df = df_pattern_weight.sort_values(by ='total', ascending=False)[:num]
+    top_freq_pattern = top_freq_pattern_df['pattern'].values
+    bag_of_pattern_matrix = np.empty((0,num), dtype=int)
+    df_pattern = df_input[patt_col].values
+    for row in df_pattern: 
+        _ = []
+        for pattern in top_freq_pattern:
+            if pattern in row:
+                _.append(1)
+            else:
+                _.append(0)
+        bag_of_pattern_matrix = np.append(bag_of_pattern_matrix, [_], axis=0)
+    return bag_of_pattern_matrix
+
 
 
 ## ------------------------------------------------------------------------ ##
